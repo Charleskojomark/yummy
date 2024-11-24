@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fund Account</title>
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+
+  <style>
+    :root {
+      --default-font: "Roboto", sans-serif;
+      --accent-color: #800020; /* Wine color */
+      --background-color: #f8f9fa;
+      --card-bg: #ffffff;
+    }
+
+    body {
+      font-family: var(--default-font);
+      background-color: var(--background-color);
+      padding: 20px;
+      color: #212529;
+    }
+
+    .fund-header {
+      text-align: center;
+      color: var(--accent-color);
+      margin-bottom: 20px;
+    }
+
+    .form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 30px;
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container h2 {
+      text-align: center;
+      color: var(--accent-color);
+      margin-bottom: 15px;
+    }
+
+    .form-container label {
+      font-weight: bold;
+      color: #555;
+    }
+
+    .form-container input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .form-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: var(--accent-color);
+      border: none;
+      color: #fff;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .form-container button:hover {
+      background-color: color-mix(in srgb, var(--accent-color), transparent 25%);
+    }
+
+    .error-container {
+      color: #721c24;
+      background-color: #f8d7da;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #f5c6cb;
+      border-radius: 5px;
+    }
+
+    .error-container .close-button {
+      float: right;
+      background: transparent;
+      border: none;
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .back-link:hover {
+      color: #212529;
+    }
+  </style>
+</head>
+
+<body>
+  <h1 class="fund-header">Fund Your Account</h1>
+
+  {% if messages %}
+  {% for m in messages %}
+  {% if forloop.last %}
+  <div class="error-container" id="error-container">
+    <span>{{ m }}</span>
+    <button class="close-button" onclick="removeDiv('error-container')">✖</button>
+  </div>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
+
+  <div class="form-container">
+    <h2>Fund Your Wallet</h2>
+    <p class="text-center">Easily add funds to your account securely.</p>
+    <form id="fund-form" action="{% url 'reservation:initiate_payment' %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="email" value="{{ request.user.email }}">
+      <label for="fund-amount">Enter Amount:</label>
+      <input type="number" id="fund-amount" name="amount" placeholder="Enter amount in Naira" required>
+      <button type="submit" class="btn">Pay Now</button>
+    </form>
+  </div>
+
+  <a href="/dashboard" class="back-link">Back to Dashboard</a>
+
+  <script>
+    function removeDiv(divId) {
+      const div = document.getElementById(divId);
+      if (div) {
+        div.remove();
+      }
+    }
+  </script>
+</body>
+
+</html>

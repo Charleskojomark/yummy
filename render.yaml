@@ -1,0 +1,43 @@
+databases:
+  - name: yummy
+    plan: free
+    databaseName: yummy
+    user: yummy
+
+
+services:
+  - type: web
+    plan: free
+    name: yummy_kitchen
+    runtime: python
+    buildCommand: "./build.sh"  # Adjust this if you have a build script
+    startCommand: "uvicorn wg_kitchen.asgi:application --host 0.0.0.0 --port $PORT --workers 4"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
+      - key: DEBUG
+        value: 'False'
+      - key: PORT
+        value: '8000'
+      - key: DATABASE_URL
+        fromDatabase:
+          name: yummy
+          property: connectionString
+      - key: CREATE_SUPERUSER
+        value: 'True'
+      - key: DJANGO_SUPERUSER_EMAIL
+        value: 'ebus@gmail.com'
+      - key: DJANGO_SUPERUSER_PASSWORD
+        value: 'ebus'
+      - key: DJANGO_SUPERUSER_USERNAME
+        value: 'ebus'
+      - key: EMAIL_HOST_USER
+        value: 'markcharleskojo@gmail.com'
+      - key: EMAIL_HOST_PASSWORD
+        value: 'yyqwsecamfodpfxg'
+      - key: PAYSTACK_PUBLIC_KEY
+        value: 'pk_test_b4f6f44259206d5133b707ef87ffd9afbc7016be'
+      - key: PAYSTACK_SECRET_KEY
+        value: 'sk_test_9d0f4c257b2bc42d7f57cde6cdb524e964a9ef69'
