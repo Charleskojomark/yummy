@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Activate Your Yummy Kitchen Account</title>
+    <title>Activate Your Wire Global Kitchen Account</title>
     <style>
         /* Add your CSS styles here */
         :root {
@@ -69,13 +69,13 @@
 </head>
 <body>
     <div class="container">
-        <h3>Welcome to Yummy Kitchen, {{ user.username }}!</h3>
+        <h3>Welcome to Wire Global Kitchen, {{ user.username }}!</h3>
         <p>Please click on the button below to confirm your email address and activate your account:</p>
         <p><a class="button" href="http://{{ domain }}{% url 'userauth:activate' uidb64=uid token=token %}">Activate Account</a></p>
         
-        <p>Best regards,<br>The Yummy Kitchen Team</p>
-        <p class="footer">You received this email because you signed up for Yummy Kitchen. If you did not create an account, please ignore this email.</p>
-        <p class="footer_copy">&#169; Yummy Kitchen
+        <p>Best regards,<br>The Wire Global Kitchen Team</p>
+        <p class="footer">You received this email because you signed up for Wire Global Kitchen. If you did not create an account, please ignore this email.</p>
+        <p class="footer_copy">&#169; Wire Global Kitchen
             <script>document.write(new Date().getFullYear())</script>. All rights Reserved
         </p>
     </div>
