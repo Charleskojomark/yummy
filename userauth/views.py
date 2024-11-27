@@ -59,7 +59,7 @@ def signup_view(request):
     else:
         form = SignUpForm()
     
-    return render(request, 'auth/signup.html', {'form': form})
+    return render(request, 'signup.html', {'form': form})
 
 def activate(request, uidb64, token):
     try:
@@ -108,9 +108,9 @@ def login_view(request):
         else:
             # Handle invalid login
             messages.warning(request, "user does not exist")
-            return render(request, 'auth/login.html', {'error': 'Invalid credentials'})
+            return render(request, 'login.html', {'error': 'Invalid credentials'})
 
-    return render(request, 'auth/login.html')
+    return render(request, 'login.html')
 
 
 def logout_view(request):

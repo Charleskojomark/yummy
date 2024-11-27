@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Starter Page - Yummy Bootstrap Template</title>
+  <title>Wire Global | Login</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -36,7 +36,45 @@
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 </head>
+<style>
+  .form-container {
+    background-color: var(--surface-color);
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
 
+  .form-container .btn-primary {
+    background-color: var(--accent-color);
+    border: none;
+    transition: 0.3s;
+  }
+
+  .form-container .btn-primary:hover {
+    background-color: color-mix(in srgb, var(--accent-color), transparent 25%);
+  }
+  /* Focus outline styling */
+  .form-control:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 5px var(--accent-color);
+  }
+</style>
+{% if messages %}
+    {% for m in messages %}
+        {% if forloop.last %}
+            <div class="error-container" id="error-container" style="color: red; background-color: #f8d7da; padding: 10px; margin-bottom: 15px; border: 1px solid #f5c6cb; border-radius: 5px;">
+                <div class="errors" id="errors">
+                    <span>{{ m }}</span>
+                    <button class="close-button" onclick="removeDiv('error-container')" style="float: right; background: transparent; border: none; font-size: 1.2em; cursor: pointer;">✖</button>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
 <body class="starter-page-page">
 
   <header id="header" class="header d-flex align-items-center sticky-top">
@@ -45,22 +83,22 @@
       <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="{% static 'assets/img/logo.png' %}" alt=""> -->
-        <h1 class="sitename">Yummy</h1>
+        <h1 class="sitename">Wire Global K</h1>
         <span>.</span>
       </a>
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="#hero">Home<br></a></li>
+          <li><a href="#hero" class="active">Home<br></a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#menu">Menu</a></li>
           <li><a href="#events">Events</a></li>
           <li><a href="#chefs">Chefs</a></li>
           <li><a href="#gallery">Gallery</a></li>
-          <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+          <li class="dropdown"><a href="#"><span>Account</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-              <li><a href="#">Dropdown 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <li><a href="{% url 'core:dashboard' %}">Dashboard</a></li>
+              {% comment %} <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a> {% endcomment %}
                 <ul>
                   <li><a href="#">Deep Dropdown 1</a></li>
                   <li><a href="#">Deep Dropdown 2</a></li>
@@ -69,9 +107,13 @@
                   <li><a href="#">Deep Dropdown 5</a></li>
                 </ul>
               </li>
-              <li><a href="#">Dropdown 2</a></li>
-              <li><a href="#">Dropdown 3</a></li>
-              <li><a href="#">Dropdown 4</a></li>
+              <li><a href="{% url 'reservation:fund_account' %}">Fund Wallet</a></li>
+              <li><a href="{% url 'core:dashboard' %}">View Orders</a></li>
+              {% if user.is_authenticated %}
+              <li><a href="{% url 'userauth:logout' %}">Logout</a></li>
+              {% else %}
+              <li><a href="{% url 'userauth:login' %}">Login</a></li>
+              {% endif %}
             </ul>
           </li>
           <li><a href="#contact">Contact</a></li>
@@ -79,7 +121,12 @@
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
-      <a class="btn-getstarted" href="index.html#book-a-table">Book a Table</a>
+      <!-- <a class="btn-getstarted" href="index.html#book-a-table">Book a Table</a> -->
+      {% if user.is_authenticated %}
+      <a class="btn-getstarted" href="#book-a-table">Book a Table</a>
+      {% else %}
+      <a class="btn-getstarted" href="{% url 'userauth:login' %}">Login</a>
+      {% endif %}
 
     </div>
   </header>
@@ -89,11 +136,11 @@
     <!-- Page Title -->
     <div class="page-title" data-aos="fade">
       <div class="container">
-        <h1>Starter Page</h1>
+        <h1>Login Page</h1>
         <nav class="breadcrumbs">
           <ol>
             <li><a href="index.html">Home</a></li>
-            <li class="current">Starter Page</li>
+            <li class="current">Login Page</li>
           </ol>
         </nav>
       </div>
@@ -104,12 +151,39 @@
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>Starter Section</h2>
-        <p><span>Section Title</span> <span class="description-title">Direda Flowed</span></p>
+        <h2>Login Section</h2>
+        {% comment %} <p><span>Section Title</span> <span class="description-title">Direda Flowed</span></p> {% endcomment %}
       </div><!-- End Section Title -->
 
       <div class="container" data-aos="fade-up">
-        <p>Use this page as a starter for your own custom pages.</p>
+        {% comment %} <p>Use this page as a starter for your own custom pages.</p> {% endcomment %}
+  <div class="form-container">
+    <h2 class="text-center">Login</h2>
+    <form method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="username" class="form-label">Email or Username:</label>
+        <input type="text" name="username" id="username" class="form-control" required>
+        {{ form.username.errors }}
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password:</label>
+        <input type="password" name="password" id="password" class="form-control" required>
+        {{ form.password.errors }}
+      </div>
+
+      {% if error %}
+      <p style="color: red;">{{ error }}</p>
+      {% endif %}
+
+      <button type="submit" class="btn btn-primary w-100">Login</button>
+    </form>
+
+    <p class="mt-3 text-center">
+      Don't have an account? <a href="{% url 'userauth:signup' %}">Sign Up</a>
+    </p>
+  </div>
       </div>
 
     </section><!-- /Starter Section Section -->
@@ -167,13 +241,13 @@
     </div>
 
     <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">Yummy</strong> <span>All Rights Reserved</span></p>
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">Wire Global Kitchen</strong> <span>All Rights Reserved</span></p>
       <div class="credits">
         <!-- All the links in the footer should remain intact. -->
         <!-- You can delete the links only if you've purchased the pro version. -->
         <!-- Licensing information: https://bootstrapmade.com/license/ -->
         <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        Designed by <a href="https://bootstrapmade.com/">Parrot Codes</a>
       </div>
     </div>
 
@@ -193,6 +267,13 @@
   <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
   <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
 
+
+  <script>
+    function removeDiv(id) {
+        var elem = document.getElementById(id);
+        if (elem) elem.remove();
+    }
+  </script>
   <!-- Main JS File -->
   <script src="{% static 'assets/js/main.js' %}"></script>
 

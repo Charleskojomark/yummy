@@ -1,5 +1,6 @@
 # my_app/views.py
 from django.shortcuts import render
+import requests
 from reservation.models import Meal,Order, Transaction
 from django.contrib.auth.decorators import login_required
 
@@ -19,4 +20,8 @@ def dashboard(request):
         'transactions': transactions
     }
     return render(request, 'dashboard.html', context)
+
+
+def starter(request):
+    return render(request, 'signup.html')
 
